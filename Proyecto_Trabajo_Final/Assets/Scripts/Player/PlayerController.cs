@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -121,6 +120,9 @@ public class PlayerController : MonoBehaviour
             m_GoingRight = value; 
         }
     }
+
+    public float m_CoyoteTime = 0.2f; // Duration of coyote time
+    private float m_CoyoteTimeCounter;
     #endregion
 
     #region Main Methods
@@ -216,24 +218,13 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Player Methods
+    #region Player Inputs
     // --- PLAYER METHODS ---
 
     private void HandleInputs()
     {
         if (!m_NoControlAfterHit)
-        {/*
-            m_Movement.x = Input.GetAxis("Horizontal");
-            m_RunPressed = Input.GetKey(KeyCode.LeftShift);
-            m_JumpPressed = Input.GetKeyDown(KeyCode.Space);
-            m_SitPressed = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.LeftControl);
-            m_SummonLanternPressed = Input.GetKeyDown(KeyCode.E);
-            m_LeftClickPressed = Input.GetMouseButtonDown(0);
-            m_RightClickPressed = Input.GetMouseButtonDown(1);
-            m_MouseWheelPressed = Input.GetMouseButtonDown(2);
-            m_MouseWheel = Input.GetAxisRaw("Mouse ScrollWheel");
-            */
-
+        {
             m_Movement = m_PlayerControls.Player.Movement.ReadValue<Vector2>();
             m_JumpPressed = m_PlayerControls.Player.Jump.triggered;
             m_RunPressed = m_PlayerControls.Player.Run.ReadValue<float>() > 0;
@@ -265,12 +256,15 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Player Movement
     public void ToggleCanMove()
     {
         m_CanMove = false;
         Invoke("CanMoveAgain", 0.4f);
     }
+
     private void CanMoveAgain()
     {
         m_CanMove = true;
@@ -368,13 +362,20 @@ public class PlayerController : MonoBehaviour
         {
             m_RemainingExtraJumps = m_CurrentMaxExtraJumps;
             m_Animator.ResetTrigger("JumpPressed");
+            m_CoyoteTimeCounter = m_CoyoteTime;
+        }
+        else
+        {
+            m_CoyoteTimeCounter -= Time.deltaTime;
         }
 
         // We handle the animation here since it is related to the jump and would require extra checks in the HandleAnimations method
-        if (m_IsGrounded && m_JumpPressed && m_CanMove)
+        if ((m_CoyoteTimeCounter > 0) && m_JumpPressed && m_CanMove)
         {
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
             m_Rigidbody2D.AddForce(Vector2.up * m_CurrentJumpForce);
             m_Animator.SetTrigger("JumpPressed");
+            m_CoyoteTimeCounter = 0; // Reset coyote time counter after jump
         }
         else if (!m_IsGrounded && m_JumpPressed && m_CanMove && m_RemainingExtraJumps > 0)
         {
@@ -392,7 +393,9 @@ public class PlayerController : MonoBehaviour
         // Instantiate the jump particles prefab rotated 90 degrees
         Instantiate(m_JumpParticlesPrefab, m_JumpParticlesSpawn.transform.position, Quaternion.Euler(0, 0, 90));        
     }
+    #endregion
 
+    #region Player Animations
     private void HandleAnimations()
     {
         if (m_Rigidbody2D.velocity.x == 0 && m_Movement.x == 0)
@@ -438,7 +441,9 @@ public class PlayerController : MonoBehaviour
             m_AttackingWithMouseWheel = true;
         }
     }
+    #endregion
 
+    #region Player Colors
     public void SwitchPlayerColor()
     {
         if (m_LanternActive)
@@ -507,7 +512,9 @@ public class PlayerController : MonoBehaviour
             m_CurrentJumpForce = m_DefaultJumpForce;
         }
     }
+    #endregion
 
+    #region Player Health
     private void HandleLife()
     {
         if (m_LifePoints <= 0 && !m_IsDead)
@@ -614,7 +621,6 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
     #endregion
 
     #region Lantern Methods
