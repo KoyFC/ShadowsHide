@@ -92,7 +92,7 @@ MonoBehaviour:
   m_LightObject1: {fileID: 4278943296003670453}
   m_LightObject2: {fileID: 9108421056972834822}
   m_UnlockedColors: 5
-  m_CoyoteTimeDuration: 0.5
+  m_CoyoteTime: 0.2
 --- !u!114 &4325455037375292649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,8 +247,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.084811985, y: -0.10438442}
-  m_Size: {x: 1.0213963, y: 1.7912312}
+  m_Offset: {x: -0.084811985, y: -0.19945937}
+  m_Size: {x: 1.0213963, y: 1.6010813}
   m_Direction: 0
 --- !u!114 &5113052821556288474
 MonoBehaviour:

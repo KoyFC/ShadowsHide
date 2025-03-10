@@ -226,12 +226,29 @@ public class PlayerController : MonoBehaviour
         if (!m_NoControlAfterHit)
         {
             m_Movement = m_PlayerControls.Player.Movement.ReadValue<Vector2>();
-            m_JumpPressed = m_PlayerControls.Player.Jump.triggered;
+
+            if (m_Movement.x > m_DeadZone)
+            {
+                m_Movement.x = 1f;
+            }
+            else if (m_Movement.x < -m_DeadZone)
+            {
+                m_Movement.x = -1f;
+            }
+            else
+            {
+                m_Movement.x = 0f;
+            }
+
             m_RunPressed = m_PlayerControls.Player.Run.ReadValue<float>() > 0;
+
+            m_JumpPressed = m_PlayerControls.Player.Jump.triggered;
+
             m_SummonLanternPressed = m_PlayerControls.Player.Summon.triggered;
             m_LeftClickPressed = m_PlayerControls.Player.Act.triggered;
             m_RightClickPressed = m_PlayerControls.Player.Reset.triggered;
             m_MouseWheelPressed = m_PlayerControls.Player.Attack.triggered;
+
             m_Aim = m_PlayerControls.Player.Aim.ReadValue<Vector2>();
             
 

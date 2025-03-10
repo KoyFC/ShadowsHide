@@ -51,10 +51,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_healthBar: {fileID: 2857502034796221360}
   m_Player: {fileID: 0}
-  m_CurrentLifePoints: 5
-  m_MaxLifePoints: 5
+  m_CurrentLifePoints: 2
+  m_MaxLifePoints: 2
   m_DamageDealtToPlayer: 1
   m_SpawnPoint: {x: 0, y: 0, z: 0}
+  m_ActivateHealthBar: 0
+  m_ActivateMusic: 0
   m_GoingRight: 0
   m_PatrolPoints: []
   m_GhostBehaviour: 0
