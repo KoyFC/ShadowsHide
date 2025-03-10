@@ -29,7 +29,10 @@ public class EnemyScript : MonoBehaviour
             m_GoingRight = value;
 
             // Flip the health bar at the same time as the enemy sprite to prevent the health bar from being flipped
-            m_healthBar.transform.localScale *= new Vector2(-1, 1); 
+            if (m_healthBar != null)
+            {
+                m_healthBar.transform.localScale *= new Vector2(-1, 1); 
+            }
         }
     }
 
