@@ -154,7 +154,10 @@ public class BossGhostScript : EnemyScript
             if (GoingRight)
             {
                 GoingRight = !GoingRight;
-                m_healthBar.transform.localScale *= new Vector2(-1, 1);
+                if (m_healthBar != null)
+                {
+                    m_healthBar.transform.localScale *= new Vector2(-1, 1);
+                }
             }
         }
         else
@@ -162,7 +165,11 @@ public class BossGhostScript : EnemyScript
             if (!GoingRight)
             {
                 GoingRight = !GoingRight;
-                m_healthBar.transform.localScale *= new Vector2(-1, 1);
+
+                if (m_healthBar != null)
+                {
+                    m_healthBar.transform.localScale *= new Vector2(-1, 1);
+                }
             }
         }
     }
@@ -228,5 +235,19 @@ public class BossGhostScript : EnemyScript
         yield return new WaitForSeconds(m_StunnedTime);
         m_CanMove = true;
         m_SpriteRenderer.color = Color.white;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Lantern"))
+        {
+            Debug.Log("Boss hit player");
+            ScarePlayer();
+
+            CancelInvoke("ScarePlayer");
+            InvokeRepeating("ScarePlayer", 5, 8);
+
+            m_BossGhostBehaviour = BOSS_GHOST_BEHAVIOUR.PATROL_POINT;
+        }
     }
 }

@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
+    public Animator m_CameraStateAnimator;
     private Vector3 m_LastDirection;
     // Spawn variables
     public Transform m_SpawnPoint;
@@ -1073,6 +1074,8 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("BossTrigger"))
         {
+             m_CameraStateAnimator.SetTrigger("StartBossFight");
+
             // Deactivate the box collider and activate the capsule collider
             collision.GetComponent<BoxCollider2D>().enabled = false;
             collision.GetComponent<CapsuleCollider2D>().enabled = true;
