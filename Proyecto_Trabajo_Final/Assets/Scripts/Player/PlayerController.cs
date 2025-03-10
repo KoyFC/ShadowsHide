@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
         transform.position = m_SpawnPoint.position;
     }
 
-    void Start()
+    IEnumerator Start()
     {
         m_LastDirection = transform.position;
         m_LifePoints = m_MaxLifePoints;
@@ -178,8 +178,10 @@ public class PlayerController : MonoBehaviour
         m_GoingRight = true;
         m_CurrentMaxExtraJumps = m_DefaultMaxExtraJumps;
         m_CanPerformLanternAction = true;
+        m_InvencibleAfterHit = false;
         m_RemainingInvencibleAfterHitDuration = m_InvencibleAfterHitDuration;
         m_NoControlAfterHitDuration = m_InvencibleAfterHitDuration * 0.75f;
+        m_CurrentKnockbackForce = m_KnockbackForce;
         
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
@@ -189,6 +191,9 @@ public class PlayerController : MonoBehaviour
         m_CurrentColorIndicator = GameObject.FindGameObjectWithTag("ColorIndicator");
         m_NextColorIndicator = GameObject.FindGameObjectWithTag("NextColor");
         m_PreviousColorIndicator = GameObject.FindGameObjectWithTag("PreviousColor");
+
+        yield return new WaitForSeconds(1f);
+        ReceiveDamage(0, 0, 0); // This is so that the player knockback works properly.
     }
 
     void Update()
@@ -348,7 +353,6 @@ public class PlayerController : MonoBehaviour
 
         if (m_LanternActive) // The player will flip based on the mouse position only if the lantern is active
         {
-            Debug.Log(m_LastDirection.x + " " + transform.position.x);
             if (m_LastDirection.x + transform.position.x > transform.position.x)
             {
                 GoingRight = true;
@@ -543,8 +547,13 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    public void ReceiveDamage(int damage, float enemyXPos)
+    public void ReceiveDamage(int damage, float enemyXPos, float knockback = -1)
     {
+        if (knockback == -1)
+        {
+            knockback = m_CurrentKnockbackForce;
+        }
+
         if (!m_InvencibleAfterHit && !m_IsDead)
         {
             m_LifePoints -= damage;
@@ -553,11 +562,11 @@ public class PlayerController : MonoBehaviour
 
             if (enemyXPos < transform.position.x)
             {
-                m_Rigidbody2D.AddForce((Vector2.right + Vector2.up) * m_CurrentKnockbackForce);
+                m_Rigidbody2D.AddForce((Vector2.right + Vector2.up) * knockback);
             }
             else
             {
-                m_Rigidbody2D.AddForce((Vector2.left + Vector2.up) * m_CurrentKnockbackForce);
+                m_Rigidbody2D.AddForce((Vector2.left + Vector2.up) * knockback);
             }
         }
     }
@@ -961,7 +970,36 @@ public class PlayerController : MonoBehaviour
             {
                 thisEnemy.GetDamage(thisEnemy.m_DamageDealtToPlayer);
             }
-            m_CurrentKnockbackForce = m_KnockbackForce;
+            else
+            {
+                StartCoroutine(InvencibilityFlash());
+            }
+        }
+    }
+
+    private IEnumerator InvencibilityFlash()
+    {
+        float duration = m_InvencibleAfterHitDuration / 8;
+        Color originalColor = new Color(1, 1, 1, 1);
+        Color newColor = new Color(1, 1, 1, 0.05f);
+
+        for (int i = 0; i < 4; i++)
+        {
+            float lerpTime = 0f;
+            while (lerpTime < duration)
+            {
+                m_PlayerRenderer.material.color = Color.Lerp(originalColor, newColor, lerpTime / duration);
+                lerpTime += Time.deltaTime;
+                yield return null;
+            }
+
+            lerpTime = 0f;
+            while (lerpTime < duration)
+            {
+                m_PlayerRenderer.material.color = Color.Lerp(newColor, originalColor, lerpTime / duration);
+                lerpTime += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 
