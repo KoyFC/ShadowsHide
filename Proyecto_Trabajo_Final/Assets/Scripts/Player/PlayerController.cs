@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -61,6 +60,9 @@ public class PlayerController : MonoBehaviour
     private GameObject m_CurrentColorIndicator;
     private GameObject m_NextColorIndicator;
     private GameObject m_PreviousColorIndicator;
+    private Image m_CurrentColorIndicatorImage;
+    private Image m_NextColorIndicatorImage;
+    private Image m_PreviousColorIndicatorImage;
 
     [Header("Ground check variables")]
     public Transform m_GroundCheck;
@@ -102,6 +104,8 @@ public class PlayerController : MonoBehaviour
     private int m_CurrentColorIndex; // Index of the current color in the array
     public int m_UnlockedColors; // Number of colors that the player has unlocked
     private bool m_LanternActive; 
+    private UnityEngine.Rendering.Universal.Light2D m_Light1;
+    private UnityEngine.Rendering.Universal.Light2D m_Light2;
 
     // Direction variables
     private bool m_GoingRight;
@@ -188,9 +192,20 @@ public class PlayerController : MonoBehaviour
         m_PlayerRenderer = GetComponent<SpriteRenderer>();
         m_LightDamageScript = m_Lantern.GetComponentInChildren<LightDamageScript>();
         m_LightCollider = m_Lantern.GetComponentInChildren<PolygonCollider2D>();
+
         m_CurrentColorIndicator = GameObject.FindGameObjectWithTag("ColorIndicator");
         m_NextColorIndicator = GameObject.FindGameObjectWithTag("NextColor");
         m_PreviousColorIndicator = GameObject.FindGameObjectWithTag("PreviousColor");
+
+        m_Light1 = m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
+        m_Light2 = m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
+
+        m_CurrentColorIndicatorImage = m_CurrentColorIndicator.GetComponent<Image>();
+        m_NextColorIndicatorImage = m_NextColorIndicator.GetComponent<Image>();
+        m_PreviousColorIndicatorImage = m_PreviousColorIndicator.GetComponent<Image>();
+        
+        if (m_UnlockedColors > 1)
+        SetFrameColors();
 
         yield return new WaitForSeconds(1f);
         ReceiveDamage(0, 0, 0); // This is so that the player knockback works properly.
@@ -465,6 +480,13 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Player Colors
+    private bool CompareColors(Color color1, Color color2, float tolerance = 0.1f)
+    {
+        return Mathf.Abs(color1.r - color2.r) < tolerance &&
+            Mathf.Abs(color1.g - color2.g) < tolerance &&
+            Mathf.Abs(color1.b - color2.b) < tolerance;
+    }
+
     public void SwitchPlayerColor()
     {
         if (m_LanternActive)
@@ -478,23 +500,23 @@ public class PlayerController : MonoBehaviour
 
         if (!m_AttackingWithMouseWheel)
         {
-            if (m_PlayerRenderer.material.color == m_LanternColors[0]) // White icon
+            if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[0])) // White icon
             {
                 m_LanternActionAnimator.SetTrigger("0");
             }
-            else if (m_PlayerRenderer.material.color == m_LanternColors[1]) // Red icon
+            else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[1])) // Red icon
             {
                 m_LanternActionAnimator.SetTrigger("1");
             }
-            else if (m_PlayerRenderer.material.color == m_LanternColors[2]) // Blue  
+            else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[2])) // Blue  
             {
                 m_LanternActionAnimator.SetTrigger("2");
             }
-            else if (m_PlayerRenderer.material.color == m_LanternColors[3]) // Green icon
+            else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[3])) // Green icon
             {
                 m_LanternActionAnimator.SetTrigger("3");
             }
-            else if (m_PlayerRenderer.material.color == m_LanternColors[4]) // Yellow icon
+            else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[4])) // Yellow icon
             {
                 m_LanternActionAnimator.SetTrigger("4");
             }
@@ -507,22 +529,22 @@ public class PlayerController : MonoBehaviour
 
     private void HandlePlayerBenefits()
     {
-        if (m_PlayerRenderer.material.color == m_LanternColors[1]) // Red
+        if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[1])) // Red
         {
             m_CurrentSpeed = m_DefaultSpeed;
             m_CurrentJumpForce = m_DefaultJumpForce;
         }
-        else if (m_PlayerRenderer.material.color == m_LanternColors[2]) // Blue
+        else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[2])) // Blue
         {
             m_CurrentSpeed = m_DefaultSpeed;
             m_CurrentJumpForce = m_DefaultJumpForce;
         }
-        else if (m_PlayerRenderer.material.color == m_LanternColors[3]) // Green
+        else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[3])) // Green
         {
             m_CurrentSpeed = m_DefaultSpeed * 0.95f;
             m_CurrentJumpForce = m_DefaultJumpForce * 1.05f;
         }
-        else if (m_PlayerRenderer.material.color == m_LanternColors[4]) // Yellow
+        else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[4])) // Yellow
         {
             m_CurrentSpeed = m_DefaultSpeed * 1.05f;
             m_CurrentJumpForce = m_DefaultJumpForce * 0.95f;
@@ -733,20 +755,20 @@ public class PlayerController : MonoBehaviour
             switch (m_CurrentColorIndex) // Rather than copying the color from the array, the color is set directly because it is otherwise unnoticable
             {
                 case 1:
-                    m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0, 0, 1);
-                    m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0, 0, 1);
+                    m_Light1.color = new Color(1, 0, 0, 1);
+                    m_Light2.color = new Color(1, 0, 0, 1);
                     break;
                 case 2:
-                    m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 0, 1, 1);
-                    m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 0, 1, 1);
+                    m_Light1.color = new Color(0, 0, 1, 1);
+                    m_Light2.color = new Color(0, 0, 1, 1);
                     break;
                 case 3:
-                    m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 1, 0, 1);
-                    m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 1, 0, 1);
+                    m_Light1.color = new Color(0, 1, 0, 1);
+                    m_Light2.color = new Color(0, 1, 0, 1);
                     break;
                 case 4:
-                    m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0.92f, 0.016f, 1);
-                    m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0.92f, 0.016f, 1);
+                    m_Light1.color = new Color(1, 0.92f, 0.016f, 1);
+                    m_Light2.color = new Color(1, 0.92f, 0.016f, 1);
                     break;
             }
 
@@ -759,8 +781,8 @@ public class PlayerController : MonoBehaviour
             {
                 m_PlayerRenderer.material.color = m_LanternColors[0];
                 m_LanternRenderer.material.color = m_LanternColors[0];
-                m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 1, 1, 1);
-                m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 1, 1, 1);
+                m_Light1.color = new Color(1, 1, 1, 1);
+                m_Light2.color = new Color(1, 1, 1, 1);
             }
             else 
             {
@@ -769,23 +791,23 @@ public class PlayerController : MonoBehaviour
                 switch (m_CurrentColorIndex)
                 {
                     case 1:
-                        m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0, 0, 1);
-                        m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0, 0, 1);
+                        m_Light1.color = new Color(1, 0, 0, 1);
+                        m_Light2.color = new Color(1, 0, 0, 1);
                         m_LanternActionAnimator.SetTrigger("1");
                         break;
                     case 2:
-                        m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 0, 1, 1);
-                        m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 0, 1, 1);
+                        m_Light1.color = new Color(0, 0, 1, 1);
+                        m_Light2.color = new Color(0, 0, 1, 1);
                         m_LanternActionAnimator.SetTrigger("2");
                         break;
                     case 3:
-                        m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 1, 0, 1);
-                        m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(0, 1, 0, 1);
+                        m_Light1.color = new Color(0, 1, 0, 1);
+                        m_Light2.color = new Color(0, 1, 0, 1);
                         m_LanternActionAnimator.SetTrigger("3");
                         break;
                     case 4:
-                        m_LightObject1.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0.92f, 0.016f, 1);
-                        m_LightObject2.GetComponent<UnityEngine.Rendering.Universal.Light2D>().color = new Color(1, 0.92f, 0.016f, 1);
+                        m_Light1.color = new Color(1, 0.92f, 0.016f, 1);
+                        m_Light2.color = new Color(1, 0.92f, 0.016f, 1);
                         m_LanternActionAnimator.SetTrigger("4");
                         break;
                 }
@@ -795,32 +817,32 @@ public class PlayerController : MonoBehaviour
 
     private void SetFrameColors() // Set the colors of the lantern frames
     {
-        m_CurrentColorIndicator.GetComponent<Image>().color = m_LanternColors[m_CurrentColorIndex];
-            if (m_UnlockedColors == 1)
-            {
-                m_NextColorIndicator.GetComponent<Image>().color = m_LanternColors[0];
-                m_PreviousColorIndicator.GetComponent<Image>().color = m_LanternColors[0];
-            }
-            else if (m_UnlockedColors == 2)
-            {
-                m_NextColorIndicator.GetComponent<Image>().color = m_LanternColors[m_CurrentColorIndex];
-                m_PreviousColorIndicator.GetComponent<Image>().color = m_LanternColors[m_CurrentColorIndex];
-            }
-            else if ((m_CurrentColorIndex == 0 || m_CurrentColorIndex == 1) && m_UnlockedColors > 2)
-            {
-                m_NextColorIndicator.GetComponent<Image>().color = m_LanternColors[m_CurrentColorIndex + 1];
-                m_PreviousColorIndicator.GetComponent<Image>().color = m_LanternColors[m_UnlockedColors - 1];
-            }
-            else if (m_CurrentColorIndex == m_UnlockedColors - 1 && m_UnlockedColors > 2)
-            {
-                m_NextColorIndicator.GetComponent<Image>().color = m_LanternColors[1];
-                m_PreviousColorIndicator.GetComponent<Image>().color = m_LanternColors[m_UnlockedColors - 2];
-            }
-            else 
-            {
-                m_NextColorIndicator.GetComponent<Image>().color = m_LanternColors[m_CurrentColorIndex + 1];
-                m_PreviousColorIndicator.GetComponent<Image>().color = m_LanternColors[m_CurrentColorIndex - 1];
-            }
+        m_CurrentColorIndicatorImage.color = m_LanternColors[m_CurrentColorIndex];
+        if (m_UnlockedColors == 1)
+        {
+            m_NextColorIndicatorImage.color = m_LanternColors[0];
+            m_PreviousColorIndicatorImage.color = m_LanternColors[0];
+        }
+        else if (m_UnlockedColors == 2)
+        {
+            m_NextColorIndicatorImage.color = m_LanternColors[m_CurrentColorIndex];
+            m_PreviousColorIndicatorImage.color = m_LanternColors[m_CurrentColorIndex];
+        }
+        else if ((m_CurrentColorIndex == 0 || m_CurrentColorIndex == 1) && m_UnlockedColors > 2)
+        {
+            m_NextColorIndicatorImage.color = m_LanternColors[m_CurrentColorIndex + 1];
+            m_PreviousColorIndicatorImage.color = m_LanternColors[m_UnlockedColors - 1];
+        }
+        else if (m_CurrentColorIndex == m_UnlockedColors - 1 && m_UnlockedColors > 2)
+        {
+            m_NextColorIndicatorImage.color = m_LanternColors[1];
+            m_PreviousColorIndicatorImage.color = m_LanternColors[m_UnlockedColors - 2];
+        }
+        else 
+        {
+            m_NextColorIndicatorImage.color = m_LanternColors[m_CurrentColorIndex + 1];
+            m_PreviousColorIndicatorImage.color = m_LanternColors[m_CurrentColorIndex - 1];
+        }
     }
 
     private void SelectNextColor() // Select the next color in the array checking how many colors the player has unlocked.  
@@ -866,14 +888,14 @@ public class PlayerController : MonoBehaviour
         {
             if (m_LanternActive)
             {
-                if (m_PlayerRenderer.material.color == m_LanternColors[0]) // White
+                if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[0])) // White
                 {
                     // Attack
                     m_LightDamageScript.m_CurrentLightDamage = m_LightDamageScript.m_DefaultLightDamage;
                     m_CurrentActionCooldown = m_DefaultActionCooldown * 0.3f;
                     Attack();
                 }
-                else if (m_PlayerRenderer.material.color == m_LanternColors[1]) // Red
+                else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[1])) // Red
                 {
                     
                     m_LightDamageScript.m_CurrentLightDamage = m_LightDamageScript.m_DefaultLightDamage * 2;
@@ -882,7 +904,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
             
-            if (m_PlayerRenderer.material.color == m_LanternColors[2]) // Blue
+            if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[2])) // Blue
             {
                 // Invincible for 0.8 seconds, but can't move during most of it (the player is still allowed to move a bit before the invincibility ends)
                 m_LightDamageScript.m_CurrentLightDamage = 0;
@@ -894,7 +916,7 @@ public class PlayerController : MonoBehaviour
                 
                 m_CurrentActionCooldown = m_DefaultActionCooldown;
             }
-            else if (m_PlayerRenderer.material.color == m_LanternColors[3]) // Green
+            else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[3])) // Green
             {
                 // Jump that doesn't consume extra jumps
                 m_LightDamageScript.m_CurrentLightDamage = 0;
@@ -910,7 +932,7 @@ public class PlayerController : MonoBehaviour
                 
                 m_CurrentActionCooldown = m_DefaultActionCooldown;
             }
-            else if (m_PlayerRenderer.material.color == m_LanternColors[4]) // Yellow
+            else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[4])) // Yellow
             {
                 m_LightDamageScript.m_CurrentLightDamage = 0;
                 // Invert the player's gravity and its sprite vertically
@@ -957,6 +979,23 @@ public class PlayerController : MonoBehaviour
             EnemyScript thisEnemy = collision.gameObject.GetComponentInParent<EnemyScript>();
             BossProyectileScript thisBossProyectile = collision.gameObject.GetComponent<BossProyectileScript>();
             m_Rigidbody2D.velocity = Vector2.zero;
+
+            if ((thisEnemy != null || thisBossProyectile != null) 
+                && m_InvencibleAfterHit 
+                && CompareColors(m_PlayerRenderer.material.color, m_LanternColors[2])
+                && m_Movement.x == 0)
+            {
+                if (thisEnemy != null)
+                {
+                    thisEnemy.GetDamage(thisEnemy.m_DamageDealtToPlayer);
+                }
+                return;
+            }
+            else
+            {
+                StartCoroutine(InvencibilityFlash());
+            }
+
             if (thisEnemy != null)
             {
                 ReceiveDamage(thisEnemy.m_DamageDealtToPlayer, collision.transform.position.x);
@@ -965,30 +1004,24 @@ public class PlayerController : MonoBehaviour
             {
                 ReceiveDamage(thisBossProyectile.m_DamageDealtToPlayer, collision.transform.position.x);
             }
-
-            if (m_InvencibleAfterHit && m_PlayerRenderer.material.color == m_LanternColors[2] && m_Movement.x == 0)
-            {
-                thisEnemy.GetDamage(thisEnemy.m_DamageDealtToPlayer);
-            }
-            else
-            {
-                StartCoroutine(InvencibilityFlash());
-            }
         }
     }
 
     private IEnumerator InvencibilityFlash()
     {
         float duration = m_InvencibleAfterHitDuration / 8;
-        Color originalColor = new Color(1, 1, 1, 1);
-        Color newColor = new Color(1, 1, 1, 0.05f);
+        Color originalColor = m_PlayerRenderer.material.color;
+        float originalAlpha = 1f;
+        float newAlpha = 0.05f;
 
         for (int i = 0; i < 4; i++)
         {
             float lerpTime = 0f;
             while (lerpTime < duration)
             {
-                m_PlayerRenderer.material.color = Color.Lerp(originalColor, newColor, lerpTime / duration);
+                float alpha = Mathf.Lerp(originalAlpha, newAlpha, lerpTime / duration);
+                Color newColor = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                m_PlayerRenderer.material.color = newColor;
                 lerpTime += Time.deltaTime;
                 yield return null;
             }
@@ -996,11 +1029,15 @@ public class PlayerController : MonoBehaviour
             lerpTime = 0f;
             while (lerpTime < duration)
             {
-                m_PlayerRenderer.material.color = Color.Lerp(newColor, originalColor, lerpTime / duration);
+                float alpha = Mathf.Lerp(newAlpha, originalAlpha, lerpTime / duration);
+                Color newColor = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                m_PlayerRenderer.material.color = newColor;
                 lerpTime += Time.deltaTime;
                 yield return null;
             }
         }
+
+        m_PlayerRenderer.material.color = new Color(originalColor.r, originalColor.g, originalColor.b, originalAlpha);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
