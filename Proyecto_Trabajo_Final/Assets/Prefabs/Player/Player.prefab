@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137e5b0bba05c1347ace49511796ec34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CMFollowCamera: {fileID: 0}
+  m_CameraStateAnimator: {fileID: 0}
   m_SpawnPoint: {fileID: 0}
   m_Movement: {x: 0, y: 0}
   m_ActivateBossFight: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_LightObject1: {fileID: 4278943296003670453}
   m_LightObject2: {fileID: 9108421056972834822}
   m_UnlockedColors: 5
-  m_CoyoteTime: 0.2
+  m_CoyoteTime: 0.1
 --- !u!114 &4325455037375292649
 MonoBehaviour:
   m_ObjectHideFlags: 0

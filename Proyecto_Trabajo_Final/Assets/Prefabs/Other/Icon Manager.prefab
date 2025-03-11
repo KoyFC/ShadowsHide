@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8013753669703619872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8094361643538943211}
+  - component: {fileID: 3879491701399877994}
+  m_Layer: 0
+  m_Name: Icon Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8094361643538943211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8013753669703619872}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 74.116394, y: 8.27958, z: -0.16374631}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3879491701399877994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8013753669703619872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad9feaa83fdc1054c90f10f2809cb7b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_KeyboardIcons:
+    MoveLeft: {fileID: 2015837898, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    MoveRight: {fileID: -874697241, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    Jump: {fileID: 1910365941, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    Run: {fileID: 0}
+    Summon: {fileID: 93911664, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    MoveLamp: {fileID: 1730879570, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    BasicAttack: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    SpecialAbility: {fileID: -2134002329, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    ToggleColor: {fileID: -534632960, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    NextColor: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    PreviousColor: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+  m_ControllerIcons:
+    BaseSprite: {fileID: -1675633665, guid: 1900065fc5c6bd24bbbddd29ab2dacf6, type: 3}
+    Move: {fileID: -1592226835, guid: 1900065fc5c6bd24bbbddd29ab2dacf6, type: 3}
+    Jump: {fileID: 1544744822, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    Run: {fileID: 1413879971, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    Summon: {fileID: -658748978, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    MoveLamp: {fileID: -1172044899, guid: 1900065fc5c6bd24bbbddd29ab2dacf6, type: 3}
+    BasicAttack: {fileID: -2112097889, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    SpecialAbility: {fileID: -231385126, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    ToggleColor: {fileID: -398286707, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    NextColor: {fileID: -1975244498, guid: f3149066ea5b69040a0853380f129631, type: 3}
+    PreviousColor: {fileID: -573738349, guid: f3149066ea5b69040a0853380f129631, type: 3}
+  m_IconReferences:
+    MoveLeftImage: {fileID: 0}
+    MoveRightImage: {fileID: 0}
+    MoveImage: {fileID: 0}
+    JumpImage: {fileID: 0}
+    SummonImage: {fileID: 0}
+    MoveLampImage: {fileID: 0}
+    BasicAttackImage: {fileID: 0}
+    SpecialAbilityImage: {fileID: 0}
+    ToggleColorImage: {fileID: 0}
+    NextColorImage: {fileID: 0}
+    PreviousColorImage: {fileID: 0}
