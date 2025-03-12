@@ -57,6 +57,7 @@ public class IconManager : MonoBehaviour
         public SpriteRenderer MoveRightImage;
         public SpriteRenderer MoveImage;
         public SpriteRenderer JumpImage;
+        public SpriteRenderer RunImage;
 
         [Header("Lamp")]
         public SpriteRenderer SummonImage;
@@ -82,6 +83,12 @@ public class IconManager : MonoBehaviour
         UpdateIconsBasedOnCurrentDevice();
     }
 
+    void Start()
+    {
+        PlayerInput playerInput = FindObjectOfType<PlayerInput>();
+        OnDeviceChange(playerInput);
+    }
+
     public void OnDeviceChange(PlayerInput playerInput)
     {
         m_IsGamepad = playerInput.currentControlScheme.Equals("Controller");
@@ -96,26 +103,34 @@ public class IconManager : MonoBehaviour
             SetIcon(m_KeyboardIcons.MoveLeft, m_IconReferences.MoveLeftImage);
             SetIcon(m_KeyboardIcons.MoveRight, m_IconReferences.MoveRightImage);
             SetIcon(m_KeyboardIcons.Jump, m_IconReferences.JumpImage);
+            SetIcon(m_KeyboardIcons.Run, m_IconReferences.RunImage);
+            
             SetIcon(m_KeyboardIcons.Summon, m_IconReferences.SummonImage);
             SetIcon(m_KeyboardIcons.MoveLamp, m_IconReferences.MoveLampImage);
             SetIcon(m_KeyboardIcons.BasicAttack, m_IconReferences.BasicAttackImage);
             SetIcon(m_KeyboardIcons.SpecialAbility, m_IconReferences.SpecialAbilityImage);
+
             SetIcon(m_KeyboardIcons.ToggleColor, m_IconReferences.ToggleColorImage);
             SetIcon(m_KeyboardIcons.NextColor, m_IconReferences.NextColorImage);
             SetIcon(m_KeyboardIcons.PreviousColor, m_IconReferences.PreviousColorImage);
+
             SetIcon(null, m_IconReferences.MoveImage); // Disable MoveImage for keyboard
         }
         else
         {
             SetIcon(m_ControllerIcons.Move, m_IconReferences.MoveImage);
             SetIcon(m_ControllerIcons.Jump, m_IconReferences.JumpImage);
+            SetIcon(m_ControllerIcons.Run, m_IconReferences.RunImage);
+
             SetIcon(m_ControllerIcons.Summon, m_IconReferences.SummonImage);
             SetIcon(m_ControllerIcons.MoveLamp, m_IconReferences.MoveLampImage);
             SetIcon(m_ControllerIcons.BasicAttack, m_IconReferences.BasicAttackImage);
             SetIcon(m_ControllerIcons.SpecialAbility, m_IconReferences.SpecialAbilityImage);
+
             SetIcon(m_ControllerIcons.ToggleColor, m_IconReferences.ToggleColorImage);
             SetIcon(m_ControllerIcons.NextColor, m_IconReferences.NextColorImage);
             SetIcon(m_ControllerIcons.PreviousColor, m_IconReferences.PreviousColorImage);
+            
             SetIcon(null, m_IconReferences.MoveLeftImage); // Disable MoveLeftImage for controller
             SetIcon(null, m_IconReferences.MoveRightImage); // Disable MoveRightImage for controller
         }

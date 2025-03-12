@@ -261,6 +261,8 @@ public class PlayerController : MonoBehaviour
                 m_Movement.x = 0f;
             }
 
+            m_SitPressed = m_PlayerControls.Player.Movement.ReadValue<Vector2>().y < -m_DeadZone;
+
             m_RunPressed = m_PlayerControls.Player.Run.ReadValue<float>() > 0;
 
             m_JumpPressed = m_PlayerControls.Player.Jump.triggered;
@@ -450,7 +452,7 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetBool("IsWalking", false);
             m_Animator.SetBool("IsRunning", true);
         }
-        if (m_SitPressed && m_IsGrounded)
+        if (m_SitPressed && m_IsGrounded && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
             m_Animator.SetTrigger("SitPressed");
         }

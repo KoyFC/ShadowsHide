@@ -48,7 +48,7 @@ MonoBehaviour:
     MoveLeft: {fileID: 2015837898, guid: f3149066ea5b69040a0853380f129631, type: 3}
     MoveRight: {fileID: -874697241, guid: f3149066ea5b69040a0853380f129631, type: 3}
     Jump: {fileID: 1910365941, guid: f3149066ea5b69040a0853380f129631, type: 3}
-    Run: {fileID: 0}
+    Run: {fileID: 392667895, guid: f3149066ea5b69040a0853380f129631, type: 3}
     Summon: {fileID: 93911664, guid: f3149066ea5b69040a0853380f129631, type: 3}
     MoveLamp: {fileID: 1730879570, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
     BasicAttack: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
@@ -73,6 +73,7 @@ MonoBehaviour:
     MoveRightImage: {fileID: 0}
     MoveImage: {fileID: 0}
     JumpImage: {fileID: 0}
+    RunImage: {fileID: 0}
     SummonImage: {fileID: 0}
     MoveLampImage: {fileID: 0}
     BasicAttackImage: {fileID: 0}

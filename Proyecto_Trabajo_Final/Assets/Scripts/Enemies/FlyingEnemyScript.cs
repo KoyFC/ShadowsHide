@@ -5,7 +5,6 @@ using UnityEngine;
 public class FlyingEnemyScript : EnemyScript
 {
     private CapsuleCollider2D m_Collider;
-    private Rigidbody2D m_Rigidbody2D;
     public Transform[] m_PatrolPoints;
     private Animator m_Animator;
 
@@ -34,7 +33,6 @@ public class FlyingEnemyScript : EnemyScript
         m_GoingRight = false;
         m_Player = GameObject.FindGameObjectWithTag("Player");
         m_Collider = GetComponentInChildren<CapsuleCollider2D>();
-        m_Rigidbody2D = GetComponentInChildren<Rigidbody2D>();
         m_Animator = GetComponentInChildren<Animator>();
         m_CanMove = true;
 
@@ -183,7 +181,6 @@ public class FlyingEnemyScript : EnemyScript
         m_CanMove = false;
         m_Collider.enabled = false;
         m_Animator.SetTrigger("Die");
-        m_Rigidbody2D.bodyType = RigidbodyType2D.Static;
         Destroy(gameObject, 1);
     }
 }
