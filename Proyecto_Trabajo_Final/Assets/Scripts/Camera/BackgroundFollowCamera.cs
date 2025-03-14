@@ -18,7 +18,7 @@ public class BackgroundFollowCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         // Follow the camera on the y position
         transform.position = new Vector3(transform.position.x, m_CameraToFollow.position.y - m_VerticalOffset, transform.position.z);

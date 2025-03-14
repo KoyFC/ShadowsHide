@@ -205,8 +205,7 @@ public class PlayerController : MonoBehaviour
         m_NextColorIndicatorImage = m_NextColorIndicator.GetComponent<Image>();
         m_PreviousColorIndicatorImage = m_PreviousColorIndicator.GetComponent<Image>();
         
-        if (m_UnlockedColors > 1)
-        SetFrameColors();
+        if (m_UnlockedColors > 1) SetFrameColors();
 
         yield return new WaitForSeconds(1f);
         ReceiveDamage(0, 0, 0); // This is so that the player knockback works properly.
@@ -1059,11 +1058,14 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("ColorPickup"))
         {
+            Destroy(collision.gameObject);
+            
             m_UnlockedColors++;
             if (m_UnlockedColors == 4)
             {
                 m_CurrentMaxExtraJumps = 1;
             }
+
             m_CurrentColorIndex = m_UnlockedColors - 1;
             SetFrameColors();
             m_LanternActive = false;
@@ -1071,7 +1073,6 @@ public class PlayerController : MonoBehaviour
 
             m_Animator.SetTrigger("ActiveLantern");
             Invoke("ToggleNewAbility", 0.4f);
-            Destroy(collision.gameObject);
         }
 
         if (collision.CompareTag("BossTrigger"))

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9073805794247353965}
   - component: {fileID: 8596861831686423233}
   - component: {fileID: 2757078068818095899}
+  - component: {fileID: 4204264093989588495}
   m_Layer: 0
   m_Name: FlyEye
   m_TagString: Enemy
@@ -50,10 +51,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_healthBar: {fileID: 788504277051683668}
   m_Player: {fileID: 0}
-  m_CurrentLifePoints: 2
-  m_MaxLifePoints: 2
+  m_CurrentLifePoints: 1
+  m_MaxLifePoints: 1
   m_DamageDealtToPlayer: 1
   m_SpawnPoint: {x: 0, y: 0, z: 0}
+  m_ActivateHealthBar: 0
+  m_ActivateMusic: 0
   m_GoingRight: 0
   m_PatrolPoints: []
   m_FlyingEnemyBehaviour: 0
@@ -168,6 +171,33 @@ CapsuleCollider2D:
   m_Offset: {x: -0.005141616, y: 0.016867995}
   m_Size: {x: 0.6763427, y: 0.96455646}
   m_Direction: 0
+--- !u!50 &4204264093989588495
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7051825217744493193}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1001 &6838565838147032387
 PrefabInstance:
   m_ObjectHideFlags: 0

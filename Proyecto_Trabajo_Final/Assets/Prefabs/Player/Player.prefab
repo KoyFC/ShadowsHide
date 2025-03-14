@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8464046458557171860}
   - component: {fileID: 1555454027264857477}
   - component: {fileID: 5113052821556288474}
+  - component: {fileID: 8682176064078872176}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -78,7 +79,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 5506363686676608244}
   m_GroundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2176
   m_DeadZone: 0.4
   m_Lantern: {fileID: 7721312724340656334}
   m_LanternHinge: {fileID: 1397733227353135100}
@@ -232,7 +233,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -249,8 +250,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.084811985, y: -0.19945937}
-  m_Size: {x: 1.0213963, y: 1.6010813}
+  m_Offset: {x: -0.05923426, y: -0.10810977}
+  m_Size: {x: 0.82408154, y: 1.3160709}
   m_Direction: 0
 --- !u!114 &5113052821556288474
 MonoBehaviour:
@@ -352,6 +353,51 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!61 &8682176064078872176
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491233709579377969}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.055, y: -0.75}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &1887169369158383667
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,7 +52,7 @@ public class FlyingEnemyScript : EnemyScript
         {
             m_FlyingEnemyBehaviour = FLYINGENEMY_BEHAVIOUR.FOLLOW_PLAYER;
         }
-        else
+        else if (m_FlyingEnemyBehaviour == FLYINGENEMY_BEHAVIOUR.FOLLOW_PLAYER)
         {
             m_FlyingEnemyBehaviour = FLYINGENEMY_BEHAVIOUR.IDLE;
         }

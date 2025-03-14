@@ -50,16 +50,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_healthBar: {fileID: 5054361331213940513}
   m_Player: {fileID: 0}
-  m_CurrentLifePoints: 7
-  m_MaxLifePoints: 7
-  m_DamageDealtToPlayer: 2
+  m_CurrentLifePoints: 4
+  m_MaxLifePoints: 4
+  m_DamageDealtToPlayer: 3
   m_SpawnPoint: {x: 0, y: 0, z: 0}
+  m_ActivateHealthBar: 0
+  m_ActivateMusic: 0
   m_GoingRight: 0
   m_PatrolPoints: []
   m_FlyingEnemyBehaviour: 0
-  m_FlyingEnemyMaxSpeed: 4
+  m_FlyingEnemyMaxSpeed: 2.5
   m_FlyingEnemyCurrentSpeed: 0
-  m_FollowDistance: {x: 15, y: 12}
+  m_FollowDistance: {x: 9, y: 5}
 --- !u!212 &5997740888972011304
 SpriteRenderer:
   m_ObjectHideFlags: 0
