@@ -7,12 +7,15 @@ public class FlyingEnemyScript : EnemyScript
     private CapsuleCollider2D m_Collider;
     public Transform[] m_PatrolPoints;
     private Animator m_Animator;
+    private bool m_ReturnToPatrol;
+    private Vector3 m_OriginalPosition;
 
     public enum FLYINGENEMY_BEHAVIOUR
     {
         IDLE,
         PATROL_POINT, 
-        FOLLOW_PLAYER
+        FOLLOW_PLAYER,
+        RETURN_TO_ORIGINAL
     }
     public FLYINGENEMY_BEHAVIOUR m_FlyingEnemyBehaviour = FLYINGENEMY_BEHAVIOUR.IDLE;
 
@@ -35,6 +38,8 @@ public class FlyingEnemyScript : EnemyScript
         m_Collider = GetComponentInChildren<CapsuleCollider2D>();
         m_Animator = GetComponentInChildren<Animator>();
         m_CanMove = true;
+        m_ReturnToPatrol = m_FlyingEnemyBehaviour == FLYINGENEMY_BEHAVIOUR.PATROL_POINT;
+        m_OriginalPosition = transform.position;
 
         if (m_FlyingEnemyBehaviour == FLYINGENEMY_BEHAVIOUR.PATROL_POINT)
         {
@@ -48,13 +53,15 @@ public class FlyingEnemyScript : EnemyScript
         float dt = Time.deltaTime;
 
         m_Direction = m_Player.transform.position - transform.position;
-        if (m_FollowDistance.x > Mathf.Abs(m_Direction.x) && m_FollowDistance.y > Mathf.Abs(m_Direction.y))
+        Vector2 playerOffset = m_Player.transform.position - m_OriginalPosition;
+
+        if (Mathf.Abs(playerOffset.x) <= m_FollowDistance.x && Mathf.Abs(playerOffset.y) <= m_FollowDistance.y)
         {
             m_FlyingEnemyBehaviour = FLYINGENEMY_BEHAVIOUR.FOLLOW_PLAYER;
         }
-        else if (m_FlyingEnemyBehaviour == FLYINGENEMY_BEHAVIOUR.FOLLOW_PLAYER)
+        else if (Mathf.Abs(playerOffset.x) > m_FollowDistance.x || Mathf.Abs(playerOffset.y) > m_FollowDistance.y)
         {
-            m_FlyingEnemyBehaviour = FLYINGENEMY_BEHAVIOUR.IDLE;
+            m_FlyingEnemyBehaviour = m_ReturnToPatrol ? FLYINGENEMY_BEHAVIOUR.PATROL_POINT : FLYINGENEMY_BEHAVIOUR.RETURN_TO_ORIGINAL;
         }
 
         switch (m_FlyingEnemyBehaviour)
@@ -66,6 +73,25 @@ public class FlyingEnemyScript : EnemyScript
             case FLYINGENEMY_BEHAVIOUR.FOLLOW_PLAYER:
                 FollowPlayer(dt);
                 break;
+
+            case FLYINGENEMY_BEHAVIOUR.RETURN_TO_ORIGINAL:
+                ReturnToOriginalPosition(dt);
+                break;
+        }
+    }
+
+    private void ReturnToOriginalPosition(float dt)
+    {
+        if (!m_CanMove) return;
+
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            m_OriginalPosition,
+            m_FlyingEnemyCurrentSpeed * dt);
+
+        if (Vector2.Distance(transform.position, m_OriginalPosition) < 0.1f)
+        {
+            m_FlyingEnemyBehaviour = FLYINGENEMY_BEHAVIOUR.IDLE;
         }
     }
 
@@ -125,7 +151,7 @@ public class FlyingEnemyScript : EnemyScript
             }
     }
 
-
+    
     private void CheckIfFlipNeeded()
     {
         Vector2 curentPoint = m_PatrolPoints[m_CurrentPatrolPointIndex].position;
