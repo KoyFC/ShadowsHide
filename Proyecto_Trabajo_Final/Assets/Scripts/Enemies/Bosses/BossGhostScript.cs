@@ -132,7 +132,7 @@ public class BossGhostScript : EnemyScript
                 if (GoingRight)
                 {
                     GoingRight = !GoingRight;
-                    m_healthBar.transform.localScale *= new Vector2(-1, 1);
+                    if (m_healthBar != null) m_healthBar.transform.localScale *= new Vector2(-1, 1);
                 }
             }
             else
@@ -140,7 +140,7 @@ public class BossGhostScript : EnemyScript
                 if (!GoingRight)
                 {
                     GoingRight = !GoingRight;
-                    m_healthBar.transform.localScale *= new Vector2(-1, 1);
+                    if (m_healthBar != null) m_healthBar.transform.localScale *= new Vector2(-1, 1);
                 }
             }
     }
