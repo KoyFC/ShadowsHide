@@ -17,11 +17,14 @@ public class BossHealthBarScript : MonoBehaviour
 
     private void Update()
     {
-        if (m_Boss.GetComponent<EnemyScript>().m_ActivateHealthBar)
+        if (m_Boss != null)
         {
-            ShowHealthBar();
-            m_Boss.GetComponent<EnemyScript>().m_ActivateHealthBar = false;
-        }
+            if (m_Boss.GetComponent<EnemyScript>().m_ActivateHealthBar)
+            {
+                ShowHealthBar();
+                m_Boss.GetComponent<EnemyScript>().m_ActivateHealthBar = false;
+            }
+        }   
     }
 
     public void ShowHealthBar()

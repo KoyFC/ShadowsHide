@@ -72,8 +72,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Input variables")]
     [SerializeField] private float m_DeadZone = 0.4f;
-    private PlayerControls m_PlayerControls;
-    private PlayerInput m_PlayerInput;
+    [HideInInspector] public PlayerControls m_PlayerControls;
     private bool m_IsGamepad;
 
     private bool m_RunPressed;
@@ -150,7 +149,6 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         m_PlayerControls = new PlayerControls();
-        m_PlayerInput = GetComponent<PlayerInput>();
 
         if (m_HasTriggeredBossFight)
         {

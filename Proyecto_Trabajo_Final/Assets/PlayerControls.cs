@@ -125,6 +125,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""33263e42-08ef-4fe6-9f52-ffefe5dcfed6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -413,6 +422,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeColorPrev"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a9895e1-0761-4470-9cf4-8ab7d4afe81d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e01eddf-df52-477d-bc28-c41c335dc103"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -460,6 +491,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_ChangeColor = m_Player.FindAction("ChangeColor", throwIfNotFound: true);
         m_Player_ChangeColorNext = m_Player.FindAction("ChangeColorNext", throwIfNotFound: true);
         m_Player_ChangeColorPrev = m_Player.FindAction("ChangeColorPrev", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -532,6 +564,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ChangeColor;
     private readonly InputAction m_Player_ChangeColorNext;
     private readonly InputAction m_Player_ChangeColorPrev;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -547,6 +580,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @ChangeColor => m_Wrapper.m_Player_ChangeColor;
         public InputAction @ChangeColorNext => m_Wrapper.m_Player_ChangeColorNext;
         public InputAction @ChangeColorPrev => m_Wrapper.m_Player_ChangeColorPrev;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -589,6 +623,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ChangeColorPrev.started += instance.OnChangeColorPrev;
             @ChangeColorPrev.performed += instance.OnChangeColorPrev;
             @ChangeColorPrev.canceled += instance.OnChangeColorPrev;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -626,6 +663,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ChangeColorPrev.started -= instance.OnChangeColorPrev;
             @ChangeColorPrev.performed -= instance.OnChangeColorPrev;
             @ChangeColorPrev.canceled -= instance.OnChangeColorPrev;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -674,5 +714,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnChangeColor(InputAction.CallbackContext context);
         void OnChangeColorNext(InputAction.CallbackContext context);
         void OnChangeColorPrev(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

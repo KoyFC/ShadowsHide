@@ -1,26 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
+    private PlayerControls m_PlayerControls;
+
+    public EventSystem m_EventSystem;
     public GameObject PauseButton;
     public GameObject PauseMenuO;
+    public GameObject ResumeButton;
     private bool GamePaused = false;
 
     private void Start()
     {
+        m_PlayerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().m_PlayerControls;
+        if (m_EventSystem != null) m_EventSystem.SetSelectedGameObject(ResumeButton);
         Resume();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(m_PlayerControls.Player.Pause.triggered)
         {
             if (GamePaused)
             {
                 Resume();
+                if (m_EventSystem != null) m_EventSystem.SetSelectedGameObject(ResumeButton);
             }
             else
             {
