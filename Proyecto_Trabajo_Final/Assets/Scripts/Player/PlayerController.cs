@@ -1073,7 +1073,7 @@ public class PlayerController : MonoBehaviour
             Invoke("ToggleNewAbility", 0.4f);
         }
 
-        if (collision.CompareTag("BossTrigger"))
+        if (collision.CompareTag("BossTrigger") && !m_HasTriggeredBossFight)
         {
              m_CameraStateAnimator.SetTrigger("StartBossFight");
 

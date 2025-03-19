@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WizardScript : EnemyScript
 {
+    private PlayerController m_PlayerController;
     private CapsuleCollider2D m_Collider;
-    private Rigidbody2D m_Rigidbody2D;
     public Transform m_InitialSummonPoint;
     public Transform[] m_TeleportPoints;
     private Animator m_Animator;
@@ -34,8 +34,8 @@ public class WizardScript : EnemyScript
         m_GoingRight = true;
         m_healthBar.UpdateHealthBar(m_MaxLifePoints, m_CurrentLifePoints);
         m_Player = GameObject.FindGameObjectWithTag("Player");
+        m_PlayerController = m_Player.GetComponent<PlayerController>();
         m_Collider = GetComponent<CapsuleCollider2D>();
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_CanMove = true;
@@ -47,11 +47,11 @@ public class WizardScript : EnemyScript
     void Update()
     {
         float dt = Time.deltaTime;
-        if (m_Player.GetComponent<PlayerController>().m_ActivateBossFight)
+        if (m_PlayerController.m_ActivateBossFight)
         {
+            m_PlayerController.m_ActivateBossFight = false;
             InvokeRepeating("Attack", 3, 2);
             m_WizardBehaviour = WIZARD_BEHAVIOUR.BATTLE;
-            m_Player.GetComponent<PlayerController>().m_ActivateBossFight = false;
             m_ActivateHealthBar = true;
         }
 
@@ -121,6 +121,8 @@ public class WizardScript : EnemyScript
     private void Attack()
     {
         if (m_WizardBehaviour == WIZARD_BEHAVIOUR.IDLE) return;
+
+        Debug.Log("Attacking");
 
         m_Animator.SetTrigger("Attack");
         m_CanMove = false;
