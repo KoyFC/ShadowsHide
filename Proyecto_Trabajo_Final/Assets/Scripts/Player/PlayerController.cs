@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
     private float m_MouseWheel;
     private bool m_AttackingWithMouseWheel;
     private Vector3 m_AimDirection;
+    private Vector2 m_ColorSelectInstant;
 
     [Header("Lantern variables")]
     public GameObject m_Lantern;
@@ -228,6 +229,7 @@ public class PlayerController : MonoBehaviour
 
             if (m_CanPerformLanternAction && m_UnlockedColors > 1)
             {
+                HandleColorSelection();
                 SwitchPlayerColor();
                 SwitchLanternColor();
             }
@@ -270,7 +272,6 @@ public class PlayerController : MonoBehaviour
             m_MouseWheelPressed = m_PlayerControls.Player.Attack.triggered;
 
             m_Aim = m_PlayerControls.Player.Aim.ReadValue<Vector2>();
-            
 
             if (m_IsGamepad)
             {
@@ -291,6 +292,8 @@ public class PlayerController : MonoBehaviour
             {
                 m_MouseWheel = m_PlayerControls.Player.ChangeColor.ReadValue<float>();
             }
+
+            m_ColorSelectInstant = m_PlayerControls.Player.ColorSelect.ReadValue<Vector2>();
         }
     }
     #endregion
@@ -487,16 +490,70 @@ public class PlayerController : MonoBehaviour
             Mathf.Abs(color1.b - color2.b) < tolerance;
     }
 
+    private void HandleColorSelection()
+    {
+        if (m_ColorSelectInstant != Vector2.zero)
+        {
+            if (Mathf.Abs(m_ColorSelectInstant.x) > Mathf.Abs(m_ColorSelectInstant.y))
+            {
+                if (m_ColorSelectInstant.x > 0) // Derecha
+                {
+                    ChangeColorByIndex(2);
+                }
+                else // Izquierda
+                {
+                    ChangeColorByIndex(4);
+                }
+            }
+            else
+            {
+                if (m_ColorSelectInstant.y > 0) // Arriba
+                {
+                    ChangeColorByIndex(1);
+                }
+                else // Abajo
+                {
+                    ChangeColorByIndex(3);
+                }
+            }
+        }
+    }
+
+    private void ChangeColorByIndex(int index)
+    {
+        // Asegurarse de que el índice esté dentro del rango de colores desbloqueados
+        if (index > 0 && index < m_UnlockedColors)
+        {
+            m_CurrentColorIndex = index;
+            m_LanternRenderer.material.color = m_LanternColors[m_CurrentColorIndex];
+            SetFrameColors();
+
+            // Actualizar el color de las luces
+            switch (m_CurrentColorIndex)
+            {
+                case 1: // Rojo
+                    m_Light1.color = new Color(1, 0, 0, 1);
+                    m_Light2.color = new Color(1, 0, 0, 1);
+                    break;
+                case 2: // Azul
+                    m_Light1.color = new Color(0, 0, 1, 1);
+                    m_Light2.color = new Color(0, 0, 1, 1);
+                    break;
+                case 3: // Verde
+                    m_Light1.color = new Color(0, 1, 0, 1);
+                    m_Light2.color = new Color(0, 1, 0, 1);
+                    break;
+                case 4: // Amarillo
+                    m_Light1.color = new Color(1, 0.92f, 0.016f, 1);
+                    m_Light2.color = new Color(1, 0.92f, 0.016f, 1);
+                    break;
+            }
+        }
+    }
+
     public void SwitchPlayerColor()
     {
-        if (m_LanternActive)
-        {
-            m_PlayerRenderer.material.color = m_LanternRenderer.material.color;
-        }
-        else if (!m_LanternActive && m_SitPressed)
-        {
-            m_PlayerRenderer.material.color = m_LanternColors[m_CurrentColorIndex];
-        }
+         m_PlayerRenderer.material.color = m_LanternRenderer.material.color;
 
         if (!m_AttackingWithMouseWheel)
         {
@@ -788,6 +845,9 @@ public class PlayerController : MonoBehaviour
                 m_LanternRenderer.material.color = m_LanternColors[0];
                 m_Light1.color = new Color(1, 1, 1, 1);
                 m_Light2.color = new Color(1, 1, 1, 1);
+                m_CurrentColorIndicatorImage.color = m_LanternColors[0];
+                m_NextColorIndicatorImage.color = m_LanternColors[0];
+                m_PreviousColorIndicatorImage.color = m_LanternColors[0];
             }
             else 
             {
@@ -816,6 +876,7 @@ public class PlayerController : MonoBehaviour
                         m_LanternActionAnimator.SetTrigger("4");
                         break;
                 }
+                SetFrameColors(); // Restore frame colors for other colors
             }
         }
     }

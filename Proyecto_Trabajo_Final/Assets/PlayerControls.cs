@@ -134,6 +134,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ColorSelect"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ea870e66-b121-4cb2-a3d2-ac9e883f13a5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,17 +205,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""439f01db-9bd6-4725-9eca-b7210c4df7bc"",
                     ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""285a02af-7ad7-46f9-92d2-5f68b6779210"",
-                    ""path"": ""<Gamepad>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -299,6 +297,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Controller"",
                     ""action"": ""Act"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ffa2215-b183-436a-a357-7c2ce7b4789a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -444,6 +453,72 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""285a02af-7ad7-46f9-92d2-5f68b6779210"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ColorSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Number Select"",
+                    ""id"": ""e54c48b9-f30a-46e0-bda8-efc0008d236b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ColorSelect"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""3fd3c3f9-2b80-4eb6-82c0-5a9292bf0100"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""ColorSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""d9e5e190-aa4e-4ee2-ae0f-7a156b917a24"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""ColorSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6ae08107-8767-4a60-829c-0cd5c421508f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""ColorSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f52b6501-12b6-40e5-b50d-0f030e2c8ffe"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""ColorSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -492,6 +567,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_ChangeColorNext = m_Player.FindAction("ChangeColorNext", throwIfNotFound: true);
         m_Player_ChangeColorPrev = m_Player.FindAction("ChangeColorPrev", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_ColorSelect = m_Player.FindAction("ColorSelect", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -565,6 +641,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ChangeColorNext;
     private readonly InputAction m_Player_ChangeColorPrev;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_ColorSelect;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -581,6 +658,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @ChangeColorNext => m_Wrapper.m_Player_ChangeColorNext;
         public InputAction @ChangeColorPrev => m_Wrapper.m_Player_ChangeColorPrev;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @ColorSelect => m_Wrapper.m_Player_ColorSelect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -626,6 +704,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @ColorSelect.started += instance.OnColorSelect;
+            @ColorSelect.performed += instance.OnColorSelect;
+            @ColorSelect.canceled += instance.OnColorSelect;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -666,6 +747,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @ColorSelect.started -= instance.OnColorSelect;
+            @ColorSelect.performed -= instance.OnColorSelect;
+            @ColorSelect.canceled -= instance.OnColorSelect;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -715,5 +799,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnChangeColorNext(InputAction.CallbackContext context);
         void OnChangeColorPrev(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnColorSelect(InputAction.CallbackContext context);
     }
 }
