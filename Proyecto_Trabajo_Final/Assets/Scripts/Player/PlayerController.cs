@@ -568,6 +568,11 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetTrigger("Die");
         }
     }
+
+    public void TriggerDeath()
+    {
+        m_LifePoints = 0;
+    }
     
     public void ReceiveDamage(int damage, float enemyXPos, float knockback = -1)
     {
@@ -913,6 +918,9 @@ public class PlayerController : MonoBehaviour
                 m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
                 m_Movement.x = 0;
                 m_RemainingInvencibleAfterHitDuration = m_DefaultActionCooldown * 0.8f;
+
+                m_Rigidbody2D.gravityScale *= 2;
+                StartCoroutine(ReturnGravityToNormal(0.8f));
                 
                 m_CurrentActionCooldown = m_DefaultActionCooldown;
             }
@@ -956,11 +964,19 @@ public class PlayerController : MonoBehaviour
         m_LightCollider.enabled = true;
         StartCoroutine(DeactivateLanternCollider());
     }
+
     private IEnumerator LanternCooldown()
     {
         yield return new WaitForSeconds(m_CurrentActionCooldown);
         m_CanPerformLanternAction = true;
     }
+
+    private IEnumerator ReturnGravityToNormal(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        m_Rigidbody2D.gravityScale /= 2;
+    }
+
     private IEnumerator DeactivateLanternCollider()
     {
         yield return new WaitForSeconds(0.1f);

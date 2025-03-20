@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
+    private PlayerController m_Player;
     private PlayerControls m_PlayerControls;
 
     public EventSystem m_EventSystem;
@@ -14,7 +15,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        m_PlayerControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().m_PlayerControls;
+        m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        m_PlayerControls = m_Player.m_PlayerControls;
         if (m_EventSystem != null) m_EventSystem.SetSelectedGameObject(ResumeButton);
         Resume();
     }
@@ -76,8 +78,10 @@ public class PauseMenu : MonoBehaviour
     {
         GamePaused = false;
         Time.timeScale = 1f;
-        PlayerController.m_HasTriggeredBossFight = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // PlayerController.m_HasTriggeredBossFight = false;
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        PauseMenuO.SetActive(false);
+        m_Player.TriggerDeath();
     }
 
     public void Close()

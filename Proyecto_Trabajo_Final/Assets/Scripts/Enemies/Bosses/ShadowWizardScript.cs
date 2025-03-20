@@ -89,12 +89,12 @@ public class ShadowWizardScript : EnemyScript
         if (m_Player.transform.position.x < transform.position.x && m_GoingRight)
         {
             GoingRight = false;
-            m_healthBar.transform.localScale *= new Vector2(-1, 1);
+            if (m_healthBar != null) m_healthBar.transform.localScale *= new Vector2(-1, 1);
         }
         else if (m_Player.transform.position.x > transform.position.x && !m_GoingRight)
         {
             GoingRight = true;
-            m_healthBar.transform.localScale *= new Vector2(-1, 1);
+            if (m_healthBar != null) m_healthBar.transform.localScale *= new Vector2(-1, 1);
         }
     }
 

@@ -10,7 +10,7 @@ public class HealthBar : MonoBehaviour
     public void UpdateHealthBar(float m_MaxLifePoints, float m_CurrentLifePoints)
     {
         barImage.fillAmount = m_CurrentLifePoints / m_MaxLifePoints;
-        if (m_CurrentLifePoints <= 0)
+        if (m_CurrentLifePoints <= 0 && gameObject != null)
         {
             Destroy(gameObject);
         }
