@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +7,13 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateHealthBar(float m_MaxLifePoints, float m_CurrentLifePoints)
     {
-        barImage.fillAmount = m_CurrentLifePoints / m_MaxLifePoints;
-        if (m_CurrentLifePoints <= 0)
+        if (gameObject != null)
         {
-            if (gameObject != null) Destroy(gameObject);
-        }
+            if (barImage != null) barImage.fillAmount = m_CurrentLifePoints / m_MaxLifePoints;
+            if (m_CurrentLifePoints <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }  
     }
 }

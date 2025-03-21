@@ -60,7 +60,7 @@ MonoBehaviour:
   m_GoingRight: 0
   m_PatrolPoints: []
   m_FlyingEnemyBehaviour: 0
-  m_FlyingEnemyMaxSpeed: 6
+  m_FlyingEnemyMaxSpeed: 10
   m_FlyingEnemyCurrentSpeed: 0
   m_FollowDistance: {x: 14, y: 5}
 --- !u!212 &9073805794247353965

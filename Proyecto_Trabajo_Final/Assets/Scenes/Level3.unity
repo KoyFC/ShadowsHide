@@ -532,7 +532,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 0
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
@@ -49520,10 +49520,6 @@ PrefabInstance:
     - target: {fileID: 5307812042685311938, guid: bb0a67c19b5cef647b289c88ae016ca0, type: 3}
       propertyPath: m_DamageDealtToPlayer
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5307812042685311938, guid: bb0a67c19b5cef647b289c88ae016ca0, type: 3}
-      propertyPath: m_FlyingEnemyMaxSpeed
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5454667542417125451, guid: bb0a67c19b5cef647b289c88ae016ca0, type: 3}
       propertyPath: m_PresetInfoIsWorld

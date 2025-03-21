@@ -7,9 +7,12 @@ public class EnableTutorialControls : MonoBehaviour
 {
     private Collider2D m_Collider = null;
     private List<Renderer> m_Renderers = new List<Renderer>(); 
+    private PlayerController m_PlayerController = null;
 
     [SerializeField] private GameObject[] m_ObjectsToEnable;
     [SerializeField] private float m_FadeDuration = 1.0f;
+
+    [SerializeField] private int m_UnlockIndex = 0;
 
     void Awake()
     {
@@ -28,11 +31,17 @@ public class EnableTutorialControls : MonoBehaviour
                 SetRendererOpacity(renderer, 0f);
             }
         }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            m_PlayerController = player.GetComponent<PlayerController>();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && m_PlayerController != null && (m_PlayerController.m_UnlockedColors - 1) >= m_UnlockIndex)
         {
             StopAllCoroutines();
             StartCoroutine(FadeRenderers(1f));
@@ -41,7 +50,7 @@ public class EnableTutorialControls : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && m_PlayerController != null)
         {
             StopAllCoroutines();
             StartCoroutine(FadeRenderers(0f));
@@ -50,7 +59,7 @@ public class EnableTutorialControls : MonoBehaviour
 
     private IEnumerator FadeRenderers(float targetOpacity)
     {
-        float startOpacity = m_Renderers.Count > 0 ? m_Renderers[0].material.color.a : 0f; // Usar Count en lugar de Length
+        float startOpacity = m_Renderers.Count > 0 ? m_Renderers[0].material.color.a : 0f;
         float elapsedTime = 0f;
 
         while (elapsedTime < m_FadeDuration)
