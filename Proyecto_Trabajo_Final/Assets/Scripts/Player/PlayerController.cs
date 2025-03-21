@@ -130,6 +130,8 @@ public class PlayerController : MonoBehaviour
     private float m_CoyoteTimeCounter;
     #endregion
 
+    private AudioSource m_AudioSourceBlue;
+
     #region Main Methods
 
     private void OnEnable()
@@ -208,6 +210,8 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         ReceiveDamage(0, 0, 0); // This is so that the player knockback works properly.
+
+        m_AudioSourceBlue = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -346,6 +350,7 @@ public class PlayerController : MonoBehaviour
                 m_Rigidbody2D.velocity.y);
             
             m_Rigidbody2D.velocity = resultingVelocity;
+            
         }
         else // If the player can't move, the velocity is set to 0
         {
@@ -984,6 +989,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(ReturnGravityToNormal(0.8f));
                 
                 m_CurrentActionCooldown = m_DefaultActionCooldown;
+                m_AudioSourceBlue.Play();
             }
             else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[3])) // Green
             {
