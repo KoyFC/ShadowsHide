@@ -44,7 +44,7 @@ public class EnableTutorialControls : MonoBehaviour
         if (other.CompareTag("Player") && m_PlayerController != null && (m_PlayerController.m_UnlockedColors - 1) >= m_UnlockIndex)
         {
             StopAllCoroutines();
-            StartCoroutine(FadeRenderers(1f));
+            if (gameObject.activeInHierarchy) StartCoroutine(FadeRenderers(1f));
         }
     }
 
@@ -53,7 +53,7 @@ public class EnableTutorialControls : MonoBehaviour
         if (other.CompareTag("Player") && m_PlayerController != null)
         {
             StopAllCoroutines();
-            StartCoroutine(FadeRenderers(0f));
+            if (gameObject.activeInHierarchy) StartCoroutine(FadeRenderers(0f));
         }
     }
 
