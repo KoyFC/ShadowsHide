@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
         m_NoControlAfterHit = false;
         m_IsDead = false;
         m_GoingRight = true;
-        m_CurrentMaxExtraJumps = m_DefaultMaxExtraJumps;
+        //m_CurrentMaxExtraJumps = m_DefaultMaxExtraJumps;
         m_CanPerformLanternAction = true;
         m_InvencibleAfterHit = false;
         m_RemainingInvencibleAfterHitDuration = m_InvencibleAfterHitDuration;
@@ -401,6 +401,15 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
+        if (m_CurrentColorIndex == 3)
+        {
+            m_CurrentMaxExtraJumps = 1;
+        }
+        else
+        {
+            m_CurrentMaxExtraJumps = 0;
+        }
+
         // Handle jump
         if (m_IsGrounded)
         {
@@ -1005,7 +1014,7 @@ public class PlayerController : MonoBehaviour
 
                 m_Animator.SetTrigger("JumpPressed");
                 
-                m_CurrentActionCooldown = m_DefaultActionCooldown;
+                m_CurrentActionCooldown = m_DefaultActionCooldown * 0.75f;
             }
             else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[4])) // Yellow
             {
@@ -1142,10 +1151,10 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
             
             m_UnlockedColors++;
-            if (m_UnlockedColors == 4)
-            {
-                m_CurrentMaxExtraJumps = 1;
-            }
+            // if (m_UnlockedColors == 4)
+            // {
+            //     m_CurrentMaxExtraJumps = 1;
+            // }
 
             m_CurrentColorIndex = m_UnlockedColors - 1;
             SetFrameColors();
@@ -1165,7 +1174,7 @@ public class PlayerController : MonoBehaviour
             collision.GetComponent<CapsuleCollider2D>().enabled = true;
             collision.GetComponent<SpriteRenderer>().enabled = true;
 
-            if (SceneManager.GetActiveScene().name == "Level4" || SceneManager.GetActiveScene().name == "Level5")
+            if (SceneManager.GetActiveScene().name == "Level5")
             {
                 m_UnlockedColors = 5;
                 if (m_MaxLifePoints == 9)
@@ -1176,7 +1185,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_LifePoints = m_MaxLifePoints + 2;
                 }
-                m_CurrentMaxExtraJumps = 1;
+                //m_CurrentMaxExtraJumps = 1;
             }
             else 
             {

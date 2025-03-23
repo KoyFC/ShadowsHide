@@ -51,9 +51,9 @@ MonoBehaviour:
     Run: {fileID: 392667895, guid: f3149066ea5b69040a0853380f129631, type: 3}
     Summon: {fileID: 93911664, guid: f3149066ea5b69040a0853380f129631, type: 3}
     MoveLamp: {fileID: 1730879570, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
-    BasicAttack: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    BasicAttack: {fileID: -534632960, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
     SpecialAbility: {fileID: -2134002329, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
-    ToggleColor: {fileID: -534632960, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
+    ToggleColor: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
     NextColor: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
     PreviousColor: {fileID: -1388063847, guid: 75c783eea9afd6241aa83b1bf176fa16, type: 3}
   m_ControllerIcons:
