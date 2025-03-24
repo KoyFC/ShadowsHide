@@ -12,9 +12,11 @@ public class SoundsManager : MonoBehaviour
     [SerializeField] private AudioClip m_MainMenuMusic = null;
     [SerializeField] private AudioClip m_GameMusic = null;
     [SerializeField] private AudioClip m_BossMusic = null;
+    [SerializeField] private AudioClip m_VictoryMusic = null;
 
     [Header("Player Sounds")]
     [SerializeField] private AudioSource m_PlayerAudioSource = null;
+    [Space]
     [SerializeField] private AudioClip m_CheckpointSound = null;
     [Space]
     [SerializeField] private AudioClip m_SummonSound = null;
@@ -67,6 +69,9 @@ public class SoundsManager : MonoBehaviour
                 break;
             case 2:
                 m_MusicAudioSource.clip = m_BossMusic;
+                break;
+            case 3:
+                m_MusicAudioSource.clip = m_VictoryMusic;
                 break;
         }
         m_MusicAudioSource.Play();

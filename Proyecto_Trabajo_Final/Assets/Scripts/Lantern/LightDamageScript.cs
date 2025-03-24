@@ -33,8 +33,6 @@ public class LightDamageScript : MonoBehaviour
             {
                 thisBoss.GetDamage(m_CurrentLightDamage * 2);
             }
-
-            //SoundsManager.Instance.PlayEnemyHitSound();
         }
     }
 }
