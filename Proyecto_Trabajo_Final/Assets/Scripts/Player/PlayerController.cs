@@ -130,8 +130,6 @@ public class PlayerController : MonoBehaviour
     private float m_CoyoteTimeCounter;
     #endregion
 
-    private AudioSource m_AudioSourceBlue;
-
     #region Main Methods
 
     private void OnEnable()
@@ -151,6 +149,8 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        SoundsManager.Instance.PlayMusic(1);
+
         m_PlayerControls = new PlayerControls();
 
         if (m_HasTriggeredBossFight)
@@ -210,8 +210,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         ReceiveDamage(0, 0, 0); // This is so that the player knockback works properly.
-
-        m_AudioSourceBlue = GetComponent<AudioSource>();
+        SoundsManager.Instance.PlayCheckpointSound();
     }
 
     void Update()
@@ -444,7 +443,8 @@ public class PlayerController : MonoBehaviour
     private void SummonAirJumpParticles()
     {
         // Instantiate the jump particles prefab rotated 90 degrees
-        Instantiate(m_JumpParticlesPrefab, m_JumpParticlesSpawn.transform.position, Quaternion.Euler(0, 0, 90));        
+        Instantiate(m_JumpParticlesPrefab, m_JumpParticlesSpawn.transform.position, Quaternion.Euler(0, 0, 90));
+        SoundsManager.Instance.PlayActionSound(3);  
     }
     #endregion
 
@@ -637,12 +637,15 @@ public class PlayerController : MonoBehaviour
             m_IsDead = true;
             m_CanMove = false;
             m_Animator.SetTrigger("Die");
+
+            SoundsManager.Instance.PlayDeathSound();
         }
     }
 
     public void TriggerDeath()
     {
         m_LifePoints = 0;
+        SoundsManager.Instance.PlayDeathSound();
     }
     
     public void ReceiveDamage(int damage, float enemyXPos, float knockback = -1)
@@ -666,6 +669,8 @@ public class PlayerController : MonoBehaviour
             {
                 m_Rigidbody2D.AddForce((Vector2.left + Vector2.up) * knockback);
             }
+
+            SoundsManager.Instance.PlayHitSound();
         }
     }
 
@@ -762,6 +767,8 @@ public class PlayerController : MonoBehaviour
             m_LanternActive = false;
             m_Lantern.SetActive(false);
         }
+
+        SoundsManager.Instance.PlaySummonSound();
     }
 
     private void AimLantern()
@@ -963,6 +970,8 @@ public class PlayerController : MonoBehaviour
             m_CurrentActionCooldown = m_DefaultActionCooldown * 0.3f;
             Attack();
             m_AttackingWithMouseWheel = false;
+
+            SoundsManager.Instance.PlayActionSound(0);
         }
         else
         {
@@ -998,7 +1007,6 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(ReturnGravityToNormal(0.8f));
                 
                 m_CurrentActionCooldown = m_DefaultActionCooldown;
-                m_AudioSourceBlue.Play();
             }
             else if (CompareColors(m_PlayerRenderer.material.color, m_LanternColors[3])) // Green
             {
@@ -1030,6 +1038,8 @@ public class PlayerController : MonoBehaviour
                 
                 m_CurrentActionCooldown = 0.8f;
             }
+
+            SoundsManager.Instance.PlayActionSound(m_CurrentColorIndex);
         }
         
         StartCoroutine(LanternCooldown());
@@ -1144,6 +1154,8 @@ public class PlayerController : MonoBehaviour
             m_SpawnPoint = collision.transform;
             collision.GetComponent<BoxCollider2D>().enabled = false;
             collision.GetComponent<CapsuleCollider2D>().enabled = true;
+
+            SoundsManager.Instance.PlayCheckpointSound();
         }
 
         if (collision.CompareTag("ColorPickup"))
@@ -1167,7 +1179,9 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("BossTrigger") && !m_HasTriggeredBossFight)
         {
-             m_CameraStateAnimator.SetTrigger("StartBossFight");
+            SoundsManager.Instance.PlayMusic(2);
+
+            m_CameraStateAnimator.SetTrigger("StartBossFight");
 
             // Deactivate the box collider and activate the capsule collider
             collision.GetComponent<BoxCollider2D>().enabled = false;

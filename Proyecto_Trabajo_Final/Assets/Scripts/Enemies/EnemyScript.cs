@@ -49,6 +49,7 @@ public class EnemyScript : MonoBehaviour
         if (m_CurrentLifePoints > 0)
         {
             m_CurrentLifePoints -= damage;
+            SoundsManager.Instance.PlayEnemyHitSound();
         }
     }
 }

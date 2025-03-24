@@ -10,15 +10,19 @@ public class SoundController : MonoBehaviour
     private GameObject m_Player;
     private GameObject m_Boss;
     public GameObject m_MainCamera;
-    
-    
+
+    void Awake()
+    {
+        SoundsManager.Instance.PlayMusic(0);
+    }
+
     private void Start()
     {
         //m_Player = GameObject.FindGameObjectWithTag("Player");
         //m_Boss = GameObject.FindGameObjectWithTag("Boss");
         //m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         //AudioSource[] m_AudioSources;
-        ChangeVolume(-25);
+        //ChangeVolume(-25);
 
         //m_AudioSources = m_MainCamera.GetComponentsInChildren<AudioSource>();
 

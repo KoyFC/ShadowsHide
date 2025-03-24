@@ -23,6 +23,8 @@ public class LightDamageScript : MonoBehaviour
             {
                 thisEnemyProyectile.GetDamage(m_CurrentLightDamage);
             }
+
+            SoundsManager.Instance.PlayEnemyHitSound();
         }
         else if (other.gameObject.CompareTag("Boss"))
         {
@@ -31,6 +33,8 @@ public class LightDamageScript : MonoBehaviour
             {
                 thisBoss.GetDamage(m_CurrentLightDamage * 2);
             }
+
+            //SoundsManager.Instance.PlayEnemyHitSound();
         }
     }
 }
