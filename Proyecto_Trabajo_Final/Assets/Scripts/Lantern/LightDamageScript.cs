@@ -9,7 +9,7 @@ public class LightDamageScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             // Intento conseguir el componente SlimeController del objeto con el que colisiono
             EnemyScript thisEnemy = other.GetComponentInParent<EnemyScript>();
@@ -22,6 +22,14 @@ public class LightDamageScript : MonoBehaviour
             if (thisEnemyProyectile != null)
             {
                 thisEnemyProyectile.GetDamage(m_CurrentLightDamage);
+            }
+        }
+        else if (other.gameObject.CompareTag("Boss"))
+        {
+            EnemyScript thisBoss = other.GetComponentInParent<EnemyScript>();
+            if (thisBoss != null)
+            {
+                thisBoss.GetDamage(m_CurrentLightDamage * 2);
             }
         }
     }

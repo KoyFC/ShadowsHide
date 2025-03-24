@@ -126,9 +126,9 @@ MonoBehaviour:
   m_DamageDealtToPlayer: 1
   m_SpawnPoint: {x: 0, y: 0, z: 0}
   m_ActivateHealthBar: 0
+  m_ActivateMusic: 0
   m_GoingRight: 0
   m_InitialSummonPoint: {fileID: 6449128267783909530}
-  m_TeleportPoints: []
   m_ProyectilePrefab: {fileID: 4355155321510691358, guid: c962cfba3f09bc645a58989e3e52ee57, type: 3}
   m_ProyectilePrefab2: {fileID: 4355155321510691358, guid: af4c0bc51457830408bbab52a0240f52, type: 3}
   m_WizardBehaviour: 0
